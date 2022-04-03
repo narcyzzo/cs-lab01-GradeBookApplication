@@ -1,4 +1,6 @@
 using GradeBook.Enums;
+using System.Linq;
+using System;
 
 namespace GradeBook.GradeBooks
 {
@@ -11,5 +13,28 @@ namespace GradeBook.GradeBooks
         {
             Type = GradeBookType.Ranked;
         }
+        public override char GetLetterGrade(double averageGrade)
+        {
+            var threshold = (int)Math.Ceiling(Students.Count * 0.2);
+
+            var grades = Students.OrderByDescending(e => e.AverageGrade).Select(e => e.AverageGrade).ToList();
+
+            if (grades[threshold - 1] <= averageGrade)  
+                return 'A';
+            if (grades[(threshold*2)-1] <= averageGrade)
+                return 'B';  
+            if (grades[(threshold*3)-1] <= averageGrade)
+                return 'C';
+            if (grades[(threshold*4)-1] <= averageGrade)
+                return 'D';
+            return 'F';
+
+
+        }
+        
+        
+        
+        
+        
     }
 }
