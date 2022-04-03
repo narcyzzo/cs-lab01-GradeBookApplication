@@ -34,15 +34,29 @@ namespace GradeBook.UserInterfaces
         public static void CreateCommand(string command)
         {
             var parts = command.Split(' ');
-            if (parts.Length != 2)
+            if (parts.Length != 4)
             {
                 Console.WriteLine("Command not valid, Create requires a name.");
                 return;
             }
             var name = parts[1];
-            BaseGradeBook gradeBook = new BaseGradeBook(name);
+            
+            var type = parts[2].ToLower();
+            var weighted = bool.Parse(parts[3]);
+            BaseGradeBook GradeBook;
+            if(type == "standard")
+            {
+                GradeBook = new StandardGradeBook(name, weighted);
+            }
+            else
+            {
+                Console.WriteLine("{0} is not a supported type of gconstructorradebook, please try again",type);
+                return;
+            }
+
+
             Console.WriteLine("Created gradebook {0}.", name);
-            GradeBookUserInterface.CommandLoop(gradeBook);
+            GradeBookUserInterface.CommandLoop(GradeBook);
         }
 
         public static void LoadCommand(string command)
